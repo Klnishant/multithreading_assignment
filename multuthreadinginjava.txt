@@ -1,0 +1,99 @@
+1.what do you mean by multithreading why is it important?
+Ans--> Multithreading refers to the concurrent execution of multiple threads within a single process. Threads are lightweight execution units that allow a program to perform multiple tasks simultaneously. 
+
+Multithreading is important because it enables efficient utilization of resources, such as CPU cores, by allowing different parts of a program to execute concurrently. This can improve the overall performance and responsiveness of an application, especially in scenarios where tasks can be executed independently or when dealing with input/output operations or blocking tasks. Multithreading can also enhance the user experience by keeping the user interface responsive while performing intensive background tasks.
+
+2.What are the benifits of using multithreading?
+Ans--> The benefits of using multithreading in software development include:
+
+1. Improved performance: Multithreading allows for parallel execution of tasks, enabling better utilization of system resources such as CPU cores. This can lead to faster execution and increased overall performance of the application.
+
+2. Enhanced responsiveness: By executing tasks concurrently, multithreading keeps the application responsive even when performing time-consuming operations. It prevents the user interface from freezing or becoming unresponsive, providing a smoother user experience.
+
+3. Efficient resource utilization: Multithreading enables efficient use of system resources by maximizing CPU utilization. It allows multiple threads to execute simultaneously, making better use of available processing power.
+
+4. Simplified design: Multithreading can simplify the design of complex applications by breaking them down into smaller, more manageable threads. Each thread can handle a specific task or component, making the overall application structure more modular and easier to maintain.
+
+5. Asynchronous programming: Multithreading facilitates asynchronous programming models, where tasks can be executed independently and concurrently. This is useful for scenarios involving network communication, file I/O, or other operations that can be time-consuming or block the execution.
+
+6. Scalability: Multithreading enables scalable applications that can handle increased workloads. By distributing tasks across multiple threads, it becomes easier to accommodate higher levels of concurrency and scale the application to meet growing demands.
+
+7. Resource sharing and communication: Multithreading allows threads to share data and communicate with each other, enabling collaboration and coordination among different parts of the application. This can be beneficial for scenarios where threads need to exchange information or synchronize their actions.
+
+Overall, multithreading is a powerful technique that offers performance improvements, responsiveness, scalability, and simplification in software development, making it an important tool for building efficient and responsive applications.
+
+3.What is thread in Java?
+Ans--> In Java, a thread refers to a lightweight unit of execution within a program. It represents a sequential flow of control that can independently execute code. Java threads are created and managed by the Java Virtual Machine (JVM), allowing for concurrent execution of multiple threads within a single program.
+
+4.What are the two ways of implementing thread in Java?
+Ans--> To create a thread in Java, we can either extend the Thread class or implement the Runnable interface. The Thread class provides a set of methods and features for thread management, such as starting, stopping, pausing, and resuming threads. The Runnable interface defines a single method, run(), which contains the code to be executed by the thread.
+
+5.What's the diffrence between thread and process?
+Ans--> The main differences between a thread and a process are as follows:
+
+1. Execution: A process represents an instance of a running program, whereas a thread represents a single sequence of execution within that process. In other words, a process can have multiple threads, each with its own flow of control, whereas a thread is a subset of a process and shares the same memory space.
+
+2. Resource Allocation: Each process has its own separate memory space, which means processes do not share memory unless explicit mechanisms like inter-process communication (IPC) are used. On the other hand, threads within the same process share the same memory space, allowing them to directly access and modify shared data.
+
+3. Creation and Overhead: Creating a new process typically involves significant overhead since it requires duplicating the entire process, including memory, file descriptors, and other resources. In contrast, creating a new thread within an existing process is faster and less resource-intensive, as threads share resources and memory with the parent process.
+
+4. Communication and Synchronization: Inter-process communication (IPC) mechanisms like pipes, sockets, or shared memory are typically used for communication between processes. Threads, being part of the same process, can communicate and share data more easily through shared memory. Synchronization between threads can be achieved using built-in mechanisms like locks, semaphores, or monitors.
+
+5. Fault Isolation: Processes are isolated from each other, meaning that a crash or error in one process does not directly affect other processes. In contrast, threads within the same process share the same memory space, so an error in one thread can potentially crash the entire process.
+
+6. Scalability: Processes can run on different processors or even different machines, providing better scalability and distribution of workloads. Threads, being part of the same process, are limited to the resources and capabilities of that process.
+
+In summary, a process is an independent instance of a program with its own memory space, whereas a thread is a subset of a process that shares the same memory and resources. Processes provide better isolation and fault tolerance, while threads offer faster communication and resource sharing within a program.
+
+6.How can we create daemon threads?
+Ans--> In Java, daemon threads are threads that provide background services or support to other threads in an application. They run in the background and do not prevent the application from exiting if all non-daemon threads have finished executing. To create a daemon thread in Java, you can follow these steps:
+
+1. Create a thread object: Instantiate a new `Thread` object or extend the `Thread` class to create a custom thread class.
+
+2. Set the thread as a daemon: Before starting the thread, call the `setDaemon(true)` method on the thread object. This marks the thread as a daemon thread.
+
+3. Implement the thread's logic: Override the `run()` method in the custom thread class or provide a `Runnable` object with the desired logic to be executed by the thread.
+
+4. Start the thread: Call the `start()` method on the thread object to start the execution of the daemon thread.
+
+Here's an example of creating a daemon thread:
+
+public class DaemonThreadExample {
+    public static void main(String[] args) {
+        Thread daemonThread = new Thread(() -> {
+            // Daemon thread logic here
+            while (true) {
+                System.out.println("Daemon thread is running");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        daemonThread.setDaemon(true); // Set as daemon thread
+        daemonThread.start(); // Start the daemon thread
+        
+        // Other main thread logic
+        System.out.println("Main thread exiting");
+    }
+}
+
+In the example above, the `daemonThread` is created, marked as a daemon thread using `setDaemon(true)`, and started with `start()`. The thread runs an infinite loop printing a message every second. Since it is a daemon thread, it will not prevent the program from exiting, and when the main thread completes its execution, the program terminates even if the daemon thread is still running.
+
+7.What are the wait() and sleep() methods?
+Ans--> The `wait()` and `sleep()` methods are used in Java for different purposes related to thread synchronization and control.
+
+1. `wait()`: The `wait()` method is a method defined in the `Object` class in Java. When called within a synchronized block or method, it causes the current thread to release the lock it holds on the object and enter a "waiting" state until another thread invokes the `notify()` or `notifyAll()` method on the same object. The `wait()` method is typically used for inter-thread communication and coordination, allowing threads to synchronize their actions based on specific conditions or events.
+
+2. `sleep()`: The `sleep()` method is a static method defined in the `Thread` class. It causes the current thread to pause its execution for a specified amount of time, allowing other threads to execute. Unlike `wait()`, `sleep()` does not release any locks or monitor resources. It is commonly used for introducing delays or to control the timing of threads' execution. The `sleep()` method can throw an `InterruptedException` if the thread is interrupted while sleeping.
+
+Here's a brief comparison between `wait()` and `sleep()`:
+
+- `wait()` is used for inter-thread communication and coordination, while `sleep()` is used for introducing delays or controlling the timing of thread execution.
+- `wait()` is called on an object and releases the lock it holds, while `sleep()` is called on the `Thread` itself and does not release any locks.
+- `wait()` is typically used with `notify()` or `notifyAll()` to synchronize thread actions, while `sleep()` is used to introduce a pause or delay in the current thread's execution.
+- `wait()` is used within synchronized blocks or methods, while `sleep()` can be used anywhere in the code.
+
+It's important to note that both methods can be interrupted by calling the `interrupt()` method on the thread, which causes an `InterruptedException` to be thrown.
